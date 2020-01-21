@@ -51,5 +51,5 @@
   };
 
 
-  //console.log(getSortedAdvanced(incomingData));
+  console.log(getSortedAdvanced(incomingData));
 })();

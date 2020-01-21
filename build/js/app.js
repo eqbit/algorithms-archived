@@ -50,8 +50,9 @@
     });
     updateResult();
     return result.join('');
-  }; //console.log(countLetters(incomingString));
+  };
 
+  console.log(countLetters(incomingString));
 })();
 "use strict";
 
@@ -99,7 +100,8 @@
     };
 
     return getResult(incomingData);
-  }; //console.log(getSortedAdvanced(incomingData));
+  };
 
+  console.log(getSortedAdvanced(incomingData));
 })();
 //# sourceMappingURL=app.js.map
