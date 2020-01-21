@@ -1,41 +1,69 @@
-"use strict";
-
 (function () {
-  var incomeData = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  var shift = 3;
+  const incomeData = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const shift = 3;
 
-  var shiftArray = function shiftArray(incomeData, shift) {
-    for (var i = 0; i < shift; i++) {
+  const shiftArray = (incomeData, shift) => {
+    for (let i = 0; i < shift; i++) {
       incomeData.unshift(incomeData.pop());
     }
 
     return incomeData;
+  }; //console.log(shiftArray(incomeData, shift));
+
+})();
+(function () {
+  [...document.getElementById('root').getElementsByTagName('div')].forEach(element => {
+    element.addEventListener('click', function () {
+      const ids = [];
+      let next = this;
+
+      while (next) {
+        ids.push(next.id);
+        next = next.parentNode;
+        if (next.id === 'root') break;
+      }
+
+      console.log(ids);
+    });
+  });
+})();
+(function () {
+  const fetchNTimes = async (url, n) => {
+    let error;
+
+    for (let i = 0; i < n; i++) {
+      try {
+        return await fetch(url);
+      } catch (err) {
+        error = err;
+      }
+    }
+
+    throw error;
   };
 
-  console.log(shiftArray(incomeData, shift));
+  fetchNTimes('http://localhost:3000', 5).then(response => response.text()).then(data => console.log(data));
 })();
-"use strict";
-
 (function () {
-  var incomingString = 'aa1AaabbbCccAaaA32233aaBbbbbCccCCccccc';
+  const incomingString = 'aa1AaabbbCccAaaA32233aaBbbbbCccCCccccc';
 
   String.prototype.cleanup = function () {
     return this.replace(/[^a-z]+/ig, "");
   };
 
-  var countLetters = function countLetters(incomingString) {
-    var lettersArray = incomingString.cleanup().toUpperCase().split('');
-    var result = [];
-    var current = {
+  const countLetters = incomingString => {
+    const lettersArray = incomingString.cleanup().toUpperCase().split('');
+    const result = [];
+    let current = {
       letter: lettersArray[0],
       quantity: 1
     };
 
-    var updateResult = function updateResult() {
-      result.push("".concat(current.letter).concat(current.quantity));
+    const updateResult = () => {
+      result.push(`${current.letter}${current.quantity}`);
     };
 
-    lettersArray.forEach(function (letter, index) {
+    lettersArray.forEach((letter, index) => {
       if (!index) return;
 
       if (letter === current.letter) {
@@ -50,45 +78,38 @@
     });
     updateResult();
     return result.join('');
-  };
+  }; //console.log(countLetters(incomingString));
 
-  console.log(countLetters(incomingString));
 })();
-"use strict";
-
 (function () {
-  var incomingData = [['Санкт Петербург', 'Точка 3'], ['Начало', 'Санкт Петербург'], ['Москва', 'Конец'], ['Точка 3', 'Москва']];
+  const incomingData = [['Санкт Петербург', 'Точка 3'], ['Начало', 'Санкт Петербург'], ['Москва', 'Конец'], ['Точка 3', 'Москва']];
 
-  var getSortedAdvanced = function getSortedAdvanced(incomingData) {
-    var hash = {};
+  const getSortedAdvanced = incomingData => {
+    const hash = {};
 
-    for (var i = 0; i < incomingData.length; i++) {
+    for (let i = 0; i < incomingData.length; i++) {
       hash[incomingData[i]] = i;
     }
 
-    var getStart = function getStart(incomingData) {
-      return incomingData.reduce(function (start, item) {
-        return incomingData.map(function (subItem) {
-          return subItem[1];
-        }).includes(item[0]) ? start : item;
+    const getStart = incomingData => {
+      return incomingData.reduce((start, item) => {
+        return incomingData.map(subItem => subItem[1]).includes(item[0]) ? start : item;
       }, incomingData[0]);
     };
 
-    var getNext = function getNext(incomingData, previous) {
-      return incomingData.find(function (item) {
-        return item[0] === previous[1];
-      });
+    const getNext = (incomingData, previous) => {
+      return incomingData.find(item => item[0] === previous[1]);
     };
 
-    var getResult = function getResult(incomingData, currentData, result) {
+    const getResult = (incomingData, currentData, result) => {
       if (!currentData) {
-        var start = getStart(incomingData);
+        const start = getStart(incomingData);
         currentData = incomingData;
         currentData.splice(hash[start], 1);
         return getResult(incomingData, currentData, [start]);
       }
 
-      var next = getNext(currentData, result[result.length - 1]);
+      const next = getNext(currentData, result[result.length - 1]);
       if (next) result.push(next);
       currentData.splice(hash[next], 1);
 
@@ -100,8 +121,7 @@
     };
 
     return getResult(incomingData);
-  };
+  }; //console.log(getSortedAdvanced(incomingData));
 
-  console.log(getSortedAdvanced(incomingData));
 })();
 //# sourceMappingURL=app.js.map

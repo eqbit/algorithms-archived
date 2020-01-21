@@ -10,5 +10,5 @@
     return incomeData;
   };
 
-  console.log(shiftArray(incomeData, shift));
+  //console.log(shiftArray(incomeData, shift));
 })();

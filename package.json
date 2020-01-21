@@ -4,14 +4,16 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "deploy" : "gulp build && git add -A && git commit -m \"small fixes\" && git push"
+    "deploy": "gulp build && git add -A && git commit -m \"small fixes\" && git push"
   },
   "dependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.4.0",
+    "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/polyfill": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
     "@babel/register": "^7.4.0",
+    "@babel/runtime": "^7.8.3",
     "babel-polyfill": "^6.26.0",
     "browser-sync": "^2.26.7",
     "gulp": "^4.0.0",

@@ -39,5 +39,5 @@
     return(result.join(''));
   };
 
-  console.log(countLetters(incomingString));
+  //console.log(countLetters(incomingString));
 })();

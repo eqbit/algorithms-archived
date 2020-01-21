@@ -20,7 +20,8 @@ const scripts = () => {
   return src('src/js/*.js')
     .pipe(sourcemaps.init())
     .pipe(babel({
-      presets: [['@babel/preset-env']]
+      // presets: [['@babel/preset-env']],
+      // plugins: [['@babel/transform-runtime']]
     }))
     .pipe(concat('app.js'))
     .pipe(sourcemaps.write('.'))
