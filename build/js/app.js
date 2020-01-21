@@ -1,6 +1,6 @@
 "use strict";
 
-var incomingData = [['Санкт Петербург', 'Точка 3'], ['Начало', 'Санкт Петербург'], ['Москва', 'Конец'], ['Точка 3', '3']];
+var incomingData = [['Санкт Петербург', 'Точка 3'], ['Начало', 'Санкт Петербург'], ['Москва', 'Конец'], ['Точка 3', 'Москва']];
 
 var getSortedAdvanced = function getSortedAdvanced(incomingData) {
   var hash = {};
