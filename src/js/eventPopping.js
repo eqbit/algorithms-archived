@@ -10,7 +10,7 @@
         if(next.id === 'root')
           break;
       }
-      console.log(ids);
+      //console.log(ids);
     });
   });
 })();

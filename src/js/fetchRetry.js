@@ -13,5 +13,5 @@
 
   fetchNTimes('http://localhost:3000', 5)
     .then(response => response.text())
-    .then(data => console.log(data))
+    .then(data => {})//console.log(data)
 })();
