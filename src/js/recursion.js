@@ -1,30 +1,46 @@
-(function(){
-  const sumTo = (num) => num === 1 ? num : num + sumTo(num - 1);
+{
+  const cachingDecorator = f => {
+    const cache = new Map();
+
+    return function(arg) {
+      if(cache.has(arg)) {
+        return cache.get(arg);
+      }
+
+      const result = f(arg);
+      cache.set(arg, result);
+
+      return result;
+    }
+  };
+
+  const sumToRec = (num) => num === 1 ? 1 : num + sumToRec(num - 1);
 
   const sumToLoop = (num) => {
-    let result = 0;
-    for(let i = 1; i <= num; i ++) {
-      result += i;
+    let sum = num;
+
+    while(num--) {
+      sum += num;
     }
 
-    return result;
+    return sum;
   };
 
   const sumToProgression = (num) => (1 + num) * num / 2;
 
-  const factorial = (num) => num === 1 ? num : num * factorial(num - 1);
+  const factorial = (num) => num === 1 ? 1 : num * factorial(num - 1);
 
-  const fibonacci = (num) => {
-    let n1 = 1;
-    let n2 = 1;
+  let fibonacci = (num) => {
+    let cache = {
+      0: 1,
+      1: 1,
+    };
 
-    for(let i = 3; i <= num; i ++) {
-      let sum = n1 + n2;
-      n1 = n2;
-      n2 = sum;
+    for (let i = 2; i < num; i++) {
+      cache[i] = cache[i-1] + cache[i-2];
     }
 
-    return n2;
+    return cache[num-1];
   };
 
   let list = {
@@ -41,43 +57,42 @@
     }
   };
 
-  const printList = list => {
-    const values = [list.value];
-    let next = list.next;
-
-    while(next) {
-      values.push(next.value)
-      next = next.next;
-    }
-
-    values.reverse().forEach(item => console.log(item))
-  };
-
-  const printListRecursive = list => {
+  const printList = (list) => {
     console.log(list.value);
 
     if(list.next) {
-      printListRecursive(list.next)
+      printList(list.next)
     }
   };
 
-  const add = function(a) {
-    if(!a) return 0;
+  const printListLoop = (list) => {
+    console.log(list.value);
+    while(true) {
+      list = list.next;
+      console.log(list.value);
 
-    const subAdd = function(b) {
-      if(!b) return a;
-
-      return add(a + b);
-    };
-
-    subAdd[Symbol.toPrimitive] = function() {
-      return a;
-    };
-
-    return subAdd
+      if(!list.next) break;
+    }
   };
 
-  //console.log(add(2)(4) + 5)
+  const printListReversed = (list) => {
+    if(list.next) {
+      printListReversed(list.next)
+    }
+    console.log(list.value);
+  };
 
-  //printList(list);
-})();
+  const printListReversedLoop = (list) => {
+    const values = [list.value];
+
+    while(true) {
+      list = list.next;
+      values.push(list.value);
+      if(!list.next) break;
+    }
+
+    values.reverse().forEach(value => console.log(value))
+  };
+
+  //printListReversed(list);
+}

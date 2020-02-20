@@ -65,6 +65,88 @@
   }
 }
 {
+  class Animal {
+    constructor(name) {
+      this.name = name;
+    }
+
+  }
+
+  class RabbitOld extends Animal {
+    constructor(name) {
+      super(name);
+      this.created = Date.now();
+    }
+
+  }
+
+  let rabbitOld = new RabbitOld("Белый кролик"); // Error: this is not defined
+  //console.log(rabbit.name);
+
+  class Clock {
+    constructor({
+      template
+    }) {
+      this.template = template;
+    }
+
+    render() {
+      let date = new Date();
+      let hours = date.getHours();
+      if (hours < 10) hours = '0' + hours;
+      let mins = date.getMinutes();
+      if (mins < 10) mins = '0' + mins;
+      let secs = date.getSeconds();
+      if (secs < 10) secs = '0' + secs;
+      let output = this.template.replace('h', hours).replace('m', mins).replace('s', secs);
+      console.log(output);
+    }
+
+    stop() {
+      clearInterval(this.timer);
+    }
+
+    start() {
+      this.render();
+      this.timer = setInterval(() => this.render(), 1000);
+    }
+
+  }
+
+  class ExtendedClock extends Clock {
+    constructor({
+      template,
+      precision
+    }) {
+      super({
+        template
+      });
+      this.precision = precision || 1000;
+    }
+
+    start() {
+      this.render();
+      this.timer = setInterval(() => this.render(), this.precision);
+    }
+
+  }
+
+  const lowResolutionClock = new ExtendedClock({
+    template: 'h:m:s',
+    precision: 10000
+  }); //lowResolutionClock.start();
+
+  class Rabbit extends Object {
+    constructor(name) {
+      super();
+      this.name = name;
+    }
+
+  }
+
+  let rabbit = new Rabbit("Кроль"); //console.log( rabbit.hasOwnProperty('name') );
+}
+{
   const sum = a => {
     let sumx = b => sum(a + b);
 
@@ -99,9 +181,8 @@
         self.apply(this, args);
       }, ms);
     };
-  };
+  }; //f.defer(10000)(1, 2); // выведет 3 через 1 секунду.
 
-  f.defer(10000)(1, 2); // выведет 3 через 1 секунду.
 }
 (function () {
   [...document.getElementById('root').getElementsByTagName('div')].forEach(element => {
@@ -172,34 +253,47 @@
   }; //console.log(countLetters(incomingString));
 
 })();
-(function () {
-  const sumTo = num => num === 1 ? num : num + sumTo(num - 1);
+{
+  const cachingDecorator = f => {
+    const cache = new Map();
+    return function (arg) {
+      if (cache.has(arg)) {
+        return cache.get(arg);
+      }
+
+      const result = f(arg);
+      cache.set(arg, result);
+      return result;
+    };
+  };
+
+  const sumToRec = num => num === 1 ? 1 : num + sumToRec(num - 1);
 
   const sumToLoop = num => {
-    let result = 0;
+    let sum = num;
 
-    for (let i = 1; i <= num; i++) {
-      result += i;
+    while (num--) {
+      sum += num;
     }
 
-    return result;
+    return sum;
   };
 
   const sumToProgression = num => (1 + num) * num / 2;
 
-  const factorial = num => num === 1 ? num : num * factorial(num - 1);
+  const factorial = num => num === 1 ? 1 : num * factorial(num - 1);
 
-  const fibonacci = num => {
-    let n1 = 1;
-    let n2 = 1;
+  let fibonacci = num => {
+    let cache = {
+      0: 1,
+      1: 1
+    };
 
-    for (let i = 3; i <= num; i++) {
-      let sum = n1 + n2;
-      n1 = n2;
-      n2 = sum;
+    for (let i = 2; i < num; i++) {
+      cache[i] = cache[i - 1] + cache[i - 2];
     }
 
-    return n2;
+    return cache[num - 1];
   };
 
   let list = {
@@ -217,42 +311,44 @@
   };
 
   const printList = list => {
-    const values = [list.value];
-    let next = list.next;
-
-    while (next) {
-      values.push(next.value);
-      next = next.next;
-    }
-
-    values.reverse().forEach(item => console.log(item));
-  };
-
-  const printListRecursive = list => {
     console.log(list.value);
 
     if (list.next) {
-      printListRecursive(list.next);
+      printList(list.next);
     }
   };
 
-  const add = function (a) {
-    if (!a) return 0;
+  const printListLoop = list => {
+    console.log(list.value);
 
-    const subAdd = function (b) {
-      if (!b) return a;
-      return add(a + b);
-    };
+    while (true) {
+      list = list.next;
+      console.log(list.value);
+      if (!list.next) break;
+    }
+  };
 
-    subAdd[Symbol.toPrimitive] = function () {
-      return a;
-    };
+  const printListReversed = list => {
+    if (list.next) {
+      printListReversed(list.next);
+    }
 
-    return subAdd;
-  }; //console.log(add(2)(4) + 5)
-  //printList(list);
+    console.log(list.value);
+  };
 
-})();
+  const printListReversedLoop = list => {
+    const values = [list.value];
+
+    while (true) {
+      list = list.next;
+      values.push(list.value);
+      if (!list.next) break;
+    }
+
+    values.reverse().forEach(value => console.log(value));
+  }; //printListReversed(list);
+
+}
 (function () {
   const incomingData = [['Санкт Петербург', 'Точка 3'], ['Начало', 'Санкт Петербург'], ['Москва', 'Конец'], ['Точка 3', 'Москва']];
 
