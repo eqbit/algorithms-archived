@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "deploy": "gulp build && git add -A && git commit -m \"small fixes\" && git push"
+    "deploy": "gulp build && git add -A && git commit -m \"small fixes\" && git push",
+    "start": "gulp watch"
   },
   "dependencies": {
     "@babel/cli": "^7.2.3",
